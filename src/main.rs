@@ -1,6 +1,15 @@
 use std::io;
 fn main() {
     print_fib();
+    play_fahrenheit_game();
+    print_rectangle_area();
+}
+
+fn fahrenheit_to_celsius(degrees: f64) -> f64 {
+    (degrees - 32f64) * (5f64 / 9f64)
+}
+
+fn play_fahrenheit_game() {
     println!("Please input degrees in Fahrenheit to convert.");
 
     let mut inp = String::new();
@@ -28,8 +37,21 @@ fn main() {
     println!("{} degrees Fahrenheit is {} in Celsius.", inp, conversion)
 }
 
-fn fahrenheit_to_celsius(degrees: f64) -> f64 {
-    (degrees - 32f64) * (5f64 / 9f64)
+fn print_rectangle_area() {
+    println!("---Rectangles---");
+    let r = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!("{} is the rectangle's area", r.area());
+    
+    let r2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+
+    println!("r can contain r2: {}", r.can_hold(&r2));
 }
 
 fn fibonacci(n: i32) -> i32 {
@@ -50,4 +72,19 @@ fn fibonacci(n: i32) -> i32 {
 
 fn print_fib() {
     println!("{}", fibonacci(13));
+}
+
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        other.height <= self.height && other.width <= self.width
+    }
 }
