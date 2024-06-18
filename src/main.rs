@@ -1,8 +1,12 @@
 use std::io;
+use a::b;
+pub mod a;
+
 fn main() {
     print_fib();
     play_fahrenheit_game();
     print_rectangle_area();
+    b::b();
 }
 
 fn fahrenheit_to_celsius(degrees: f64) -> f64 {
