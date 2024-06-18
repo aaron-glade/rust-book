@@ -1,5 +1,6 @@
 use std::io;
 fn main() {
+    print_fib();
     println!("Please input degrees in Fahrenheit to convert.");
 
     let mut inp = String::new();
@@ -25,9 +26,28 @@ fn main() {
     let conversion = fahrenheit_to_celsius(inp);
 
     println!("{} degrees Fahrenheit is {} in Celsius.", inp, conversion)
-
 }
 
 fn fahrenheit_to_celsius(degrees: f64) -> f64 {
     (degrees - 32f64) * (5f64 / 9f64)
+}
+
+fn fibonacci(n: i32) -> i32 {
+    let mut prev = 1;
+    let mut curr = 1;
+    if n == 0 {
+        return 0;
+    }
+
+    for _ in 2..n {
+        let temp = curr + prev;
+        prev = curr;
+        curr = temp;
+    }
+
+    return curr;
+}
+
+fn print_fib() {
+    println!("{}", fibonacci(13));
 }
