@@ -4,11 +4,20 @@ use a::b;
 pub mod a;
 
 fn main() {
+    ref_demo();
     print_vec_med_and_mode();
     print_fib();
     play_fahrenheit_game();
     print_rectangle_area();
     b::b();
+}
+
+fn ref_demo() {
+    let mut s = String::from("hello ");
+    // ref_demo_2(&s);
+    println!("{s}");
+    s += "world";
+    println!("{s}");
 }
 
 fn fahrenheit_to_celsius(degrees: f64) -> f64 {
@@ -120,10 +129,10 @@ fn vec_median_and_mode(a: &[i32]) -> (f64, i32) {
     let mut mode: i32 = 0;
     let mut mode_size: usize = 0;
 
-    for (num, size) in counts.into_iter() {
-        if mode_size < size {
-            mode_size = size;
-            mode = num;
+    for (num, size) in &counts {
+        if mode_size < *size {
+            mode_size = *size;
+            mode = *num;
         }
     }
 
