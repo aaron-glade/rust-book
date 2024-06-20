@@ -6,6 +6,6 @@ edition = "2021"
 [workspace]
 members = [
   "projects/guessing_game"
-]
+, "projects/minigrep"]
 
 [dependencies]
