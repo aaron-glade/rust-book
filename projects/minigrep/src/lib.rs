@@ -20,26 +20,21 @@ impl Config {
         self.ignore_case
     }
 
-    pub fn build(args: &Vec<String>) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("Not enough arguments");
-        }
-
-        let mut args_iter = args.iter();
-        
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
         // Skip the first arg because it's just the name of the binary
-        args_iter.next();
+        args.next();
 
-        let query = args_iter
-            .next()
-            .expect("Should be a value here, since args.len >= 3")
-            .clone();
-        let file_name = args_iter
-            .next()
-            .expect("Should be a value here, since args.len >= 3")
-            .clone();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
 
-        let ignore_case = match args_iter.next() {
+        let file_name = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file name"),
+        };
+
+        let ignore_case = match args.next() {
             Some(word) => word == "ignore",
             None => env::var("IGNORE_CASE").is_ok(),
         };
@@ -68,15 +63,10 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut contents_iter = contents.lines();
-    let mut search_results: Vec<&str> = vec![];
-
-    while let Some(line) = contents_iter.next() {
-        if line.contains(query) {
-            search_results.push(line);
-        }
-    }
-    search_results
+    contents
+        .lines()
+        .filter(|line| line.contains(query) )
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
