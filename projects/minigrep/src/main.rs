@@ -12,14 +12,8 @@ fn main() {
         process::exit(1);
     });
 
-    println!(
-        "Searching for query: {} on file: {}",
-        config.get_query(),
-        config.get_file_name()
-    );
-
     match minigrep::run(config) {
-        Ok(()) => println!("minigrep ran successfully"),
+        Ok(()) => {"minigrep ran successfully";},
         Err(e) => {
             println!("application error: {e}");
             process::exit(1);
