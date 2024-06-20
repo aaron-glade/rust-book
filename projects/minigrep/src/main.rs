@@ -18,8 +18,11 @@ fn main() {
         config.get_file_name()
     );
 
-    if let Err(e) = minigrep::run(config) {
-        println!("Application error: {e}");
-        process::exit(1);
+    match minigrep::run(config) {
+        Ok(()) => println!("minigrep ran successfully"),
+        Err(e) => {
+            println!("application error: {e}");
+            process::exit(1);
+        }
     }
 }
