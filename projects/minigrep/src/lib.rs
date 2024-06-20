@@ -25,10 +25,21 @@ impl Config {
             return Err("Not enough arguments");
         }
 
-        let query = args[1].clone();
-        let file_name = args[2].clone();
+        let mut args_iter = args.iter();
+        
+        // Skip the first arg because it's just the name of the binary
+        args_iter.next();
 
-        let ignore_case = match args.get(3) {
+        let query = args_iter
+            .next()
+            .expect("Should be a value here, since args.len >= 3")
+            .clone();
+        let file_name = args_iter
+            .next()
+            .expect("Should be a value here, since args.len >= 3")
+            .clone();
+
+        let ignore_case = match args_iter.next() {
             Some(word) => word == "ignore",
             None => env::var("IGNORE_CASE").is_ok(),
         };
